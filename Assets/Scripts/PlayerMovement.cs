@@ -66,7 +66,6 @@ public class PlayerMovement : MonoBehaviour
         // Apply Jump
         if (Input.GetButtonDown("Jump"))
         {
-
             groundCheckRay.origin = transform.position;
             if (Physics.Raycast(groundCheckRay, out groundCheckRayHit) && groundCheckRayHit.distance < onGroundHeight)
                 jumpNumber = 0;
@@ -85,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
                 rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
                 ++jumpNumber;
             }
-
         }
     }
 

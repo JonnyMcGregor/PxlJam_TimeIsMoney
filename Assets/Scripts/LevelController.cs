@@ -30,14 +30,12 @@ public class LevelController : MonoBehaviour
         resetLevel();
     }
 
-    void resetLevel()
+    public void resetLevel()
     {
         inLevelUI.gameObject.SetActive(true);
         //endLevelUI.gameObject.SetActive(false);
 
-        levelPlayer.transform.position = spawnPoint.position;
-        levelPlayer.transform.position = spawnPoint.position;
-        levelPlayer.Initialise();
+        levelPlayer.Initialise(spawnPoint.position);
 
         foreach (BuyableDoorController b in levelDoors)
         {

@@ -10,13 +10,14 @@ public class PlayerStats : MonoBehaviour
     public float currentTime;
 
     public int minimumHeight = -10;
+    private Rigidbody rigidBody;
 
     public ParticleSystem coinBurst;
 
     // Use this for initialization
     void Start()
     {
-        Initialise();
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -58,10 +59,15 @@ public class PlayerStats : MonoBehaviour
     }
 
     //Initialise the players stats
-    public void Initialise()
+    public void Initialise(Vector3 initPosition)
     {
         currentMoney = startingMoney;
         currentTime = startingTime;
+
+        // Reset physics
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+        transform.position = initPosition;
     }
 
     public bool isDead()
