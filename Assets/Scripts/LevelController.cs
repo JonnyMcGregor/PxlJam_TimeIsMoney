@@ -15,12 +15,17 @@ public class LevelController : MonoBehaviour
     public PlayerStats levelPlayer;
 
     public List<BuyableDoorController> levelDoors = new List<BuyableDoorController>();
+    public List<CoinController> levelCoins = new List<CoinController>();
 
     void Start()
     {
         foreach (BuyableDoorController b in FindObjectsOfType<BuyableDoorController>())
         {
             levelDoors.Add(b);
+        }
+        foreach (CoinController c in FindObjectsOfType<CoinController>())
+        {
+            levelCoins.Add(c);
         }
         resetLevel();
     }
@@ -35,6 +40,10 @@ public class LevelController : MonoBehaviour
         foreach (BuyableDoorController b in levelDoors)
         {
             b.reset();
+        }
+        foreach (CoinController c in levelCoins)
+        {
+            c.gameObject.SetActive(true);
         }
     }
 
