@@ -66,7 +66,7 @@ public class LevelController : MonoBehaviour
         }
 
         //get player distance to end to see if they have won
-        if(Vector3.Distance(levelPlayer.transform.position, goalPoint.position) <= 2){
+        if(Vector3.Distance(levelPlayer.transform.position, goalPoint.position) <= 5){
             Debug.Log("Score: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
 
         }
