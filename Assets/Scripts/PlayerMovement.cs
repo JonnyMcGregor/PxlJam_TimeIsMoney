@@ -16,6 +16,12 @@ public class PlayerMovement : MonoBehaviour
 
     public PlayerStats playerStats;
 
+    public float enemyCollisionForce = 10;
+    public int enemyCoinSteal = 10;
+
+    public float controlsDisableTimeOnEnemyCollision = 1.0f;
+    private float disabledControlsTimer = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -29,6 +35,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(disabledControlsTimer > 0){
+            disabledControlsTimer -= 1*Time.deltaTime;
+            if(disabledControlsTimer <= 0) disabledControlsTimer = 0;
+            return;
+        }
+
         // Get Movement Input
         float xSpeed = Input.GetAxis("Horizontal");
         float zSpeed = Input.GetAxis("Vertical");
@@ -45,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 force = (horizontalAxis * xSpeed + verticalAxis * zSpeed).normalized * Speed;
         rigidBody.MovePosition(rigidBody.position + force);
         //rigidBody.AddForce(force, ForceMode.Impulse);
+
+
 
         // Apply Jump
         if (Input.GetButtonDown("Jump"))
@@ -70,4 +85,20 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+    void OnCollisionEnter(Collision c){
+
+        if(c.gameObject.tag == "Enemy"){
+            Debug.Log("Collided with Enemy");
+            Vector3 forceDirection = transform.position - c.gameObject.transform.position;
+
+            rigidBody.AddForce(forceDirection.normalized * enemyCollisionForce, ForceMode.Impulse);
+            disabledControlsTimer = controlsDisableTimeOnEnemyCollision;
+
+            playerStats.currentMoney -= enemyCoinSteal;
+            if(playerStats.currentMoney < 0) playerStats.currentMoney = 0;
+        }
+    }
+
+
 }
