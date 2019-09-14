@@ -11,6 +11,12 @@ public class PlayerStats : MonoBehaviour
     public int minimumHeight = -10;
     private Rigidbody rigidBody;
 
+    public float maxTransferSpeed = 5;
+    public float minTransferSpeed = 3;
+    public float transferRateIncreaseRate = 1f;
+    public float transferSpeed = 2f;
+    private float coinBeingTransfered = 0f;
+
     public ParticleSystem coinBurst;
 
     public AudioClip coinSpendSound;
@@ -29,11 +35,30 @@ public class PlayerStats : MonoBehaviour
     {
         currentTime -= Time.deltaTime;
 
-        if (Input.GetButtonDown("UseTime"))
-        {
-            currentTime -= 10;
-            currentMoney += 10;
+        if (Input.GetButtonDown("UseTime")){
+            currentTime -= 5;
+            currentMoney += 5;
         }
+        else if (Input.GetButton("UseTime"))
+        {
+            coinBeingTransfered += transferSpeed*Time.deltaTime;
+            if(coinBeingTransfered >= 1){
+                coinBeingTransfered = 0;
+                currentTime -= 1;
+                currentMoney += 1;
+
+                if(transferSpeed <= maxTransferSpeed) transferSpeed += transferRateIncreaseRate*Time.deltaTime; //Speed up the rate of time to coin transfer the longer they hold the button
+            }
+        }
+
+        // if(Input.GetButtonUp("UseTime")){
+        //     coinBeingTransfered = 0;
+        //     transferSpeed = minTransferSpeed;
+        // if (Input.GetButtonDown("UseTime"))
+        // {
+        //     currentTime -= 10;
+        //     currentMoney += 10;
+        // }
 
         if (Input.GetButtonDown("UseMoney"))
         {
@@ -75,14 +100,16 @@ public class PlayerStats : MonoBehaviour
         transform.position = initPosition;
     }
 
-    public bool isDead()
+    public bool IsDead
     {
-        if (transform.position.y < minimumHeight)
+        get
         {
-            return true;
+            if (transform.position.y < minimumHeight)
+            {
+                return true;
+            }
+
+            return currentTime <= 0;
         }
-
-        return currentTime <= 0;
     }
-
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BaseMenu : MonoBehaviour
 {
-    public bool menuIsShowing = false;
+    public bool MenuIsShowing { get { return MenuPanel.activeSelf; } set { MenuPanel.SetActive(value); } }
     public Transform cursor;
     public Button[] buttons;
     public int menuSelection = 0;
@@ -16,7 +16,7 @@ public class BaseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MenuPanel.SetActive(menuIsShowing);
+        MenuIsShowing = MenuIsShowing;
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class BaseMenu : MonoBehaviour
 
     protected void BaseMenuUpdate()
     {
-        if (menuIsShowing)
+        if (MenuIsShowing)
         {
             // Move cursor if up/down is pressed
             float cursorDirection = Input.GetAxisRaw ("Vertical");
@@ -51,17 +51,15 @@ public class BaseMenu : MonoBehaviour
 
     public void ToggleMenu()
     {
-        menuIsShowing = !menuIsShowing;
+        MenuIsShowing = !MenuIsShowing;
         menuSelection = 0;
-        Time.timeScale = menuIsShowing? 0 : 1; // Pause game updates
-        MenuPanel.SetActive(menuIsShowing);
+        Time.timeScale = MenuIsShowing? 0 : 1; // Pause game updates
     }
 
     public void ToggleMenu(bool visible)
     {
-        menuIsShowing = visible;
+        MenuIsShowing = visible;
         menuSelection = 0;
-        Time.timeScale = menuIsShowing? 0 : 1; // Pause game updates
-        MenuPanel.SetActive(menuIsShowing);
+        Time.timeScale = MenuIsShowing? 0 : 1; // Pause game updates
     }
 }
