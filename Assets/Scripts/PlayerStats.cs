@@ -8,16 +8,20 @@ public class PlayerStats : MonoBehaviour
     public int startingMoney = 522;
     public int currentMoney;
     public float currentTime;
-
     public int minimumHeight = -10;
     private Rigidbody rigidBody;
 
     public ParticleSystem coinBurst;
 
+    public AudioClip coinSpendSound;
+    private AudioSource coinSpendSoundSource;
+
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        coinSpendSoundSource = gameObject.AddComponent<AudioSource>();
+        coinSpendSoundSource.clip = coinSpendSound;
     }
 
     // Update is called once per frame
@@ -52,6 +56,7 @@ public class PlayerStats : MonoBehaviour
                     coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
+                    coinSpendSoundSource.Play();
                 }
             }
         }

@@ -16,7 +16,10 @@ public class HUD_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		timeText.text = "" + ((int)player.currentTime); //+ ":" + ((player.time - (int)player.time) * 60);
+
+		timeText.text = string.Format("{0}:{1:00}", 
+                            (int)(player.currentTime / 60), 
+                            (int)(player.currentTime % 60));
 		moneyText.text = "" + player.currentMoney;
 	}
 }

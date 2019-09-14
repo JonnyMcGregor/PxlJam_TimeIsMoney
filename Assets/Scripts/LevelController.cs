@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    public BaseMenu LoseWindow;
 
     public Transform spawnPoint;
     public Transform goalPoint;
@@ -16,6 +17,12 @@ public class LevelController : MonoBehaviour
 
     public List<BuyableDoorController> levelDoors = new List<BuyableDoorController>();
     public List<CoinController> levelCoins = new List<CoinController>();
+
+    public int oneStarScore = 10;
+    public int twoStarScore = 20;
+    public int threeStarScore = 30;
+
+    public float moneyScoreMultiplier = 2f;
 
     void Start()
     {
@@ -32,7 +39,9 @@ public class LevelController : MonoBehaviour
 
     public void resetLevel()
     {
+        Time.timeScale = 1;
         inLevelUI.gameObject.SetActive(true);
+        LoseWindow.ToggleMenu(false);
         //endLevelUI.gameObject.SetActive(false);
 
         levelPlayer.Initialise(spawnPoint.position);
@@ -50,9 +59,31 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (levelPlayer.isDead())
+        if (levelPlayer.isDead() && !LoseWindow.menuIsShowing)
         {
-            resetLevel();
+            LoseWindow.ToggleMenu(true);
+            // resetLevel();
         }
+
+        //get player distance to end to see if they have won
+        if(Vector3.Distance(levelPlayer.transform.position, goalPoint.position) <= 2){
+            Debug.Log("Score: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
+
+        }
+    }
+
+    int CalculateScore(float time, int money){
+        float score = money*moneyScoreMultiplier + time;
+        
+        if(score >= oneStarScore){
+            if(score >= twoStarScore){
+                if(score >= threeStarScore){
+                    return 3;
+                }
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
     }
 }

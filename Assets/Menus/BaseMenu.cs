@@ -10,14 +10,22 @@ public class BaseMenu : MonoBehaviour
     public Button[] buttons;
     public int menuSelection = 0;
     float previousAxis = 0;
+    public GameObject MenuPanel;
+    private const float AXIS_THRESHOLD = 0.5f;
 
     // Start is called before the first frame update
-    // void Start()
-    // {
-        
-    // }
+    void Start()
+    {
+        MenuPanel.SetActive(menuIsShowing);
+    }
 
     // Update is called once per frame
+    void Update()
+    {
+        BaseMenuUpdate();
+    }
+
+
     protected void BaseMenuUpdate()
     {
         if (menuIsShowing)
@@ -25,9 +33,9 @@ public class BaseMenu : MonoBehaviour
             // Move cursor if up/down is pressed
             float cursorDirection = Input.GetAxisRaw ("Vertical");
 
-            if (cursorDirection < -0.5f && cursorDirection < previousAxis)
+            if (cursorDirection < -AXIS_THRESHOLD && previousAxis >= -AXIS_THRESHOLD)
                 menuSelection = (int)Mathf.Repeat(menuSelection + 1, buttons.Length);
-            if (cursorDirection > 0.5f && cursorDirection > previousAxis)
+            if (cursorDirection > AXIS_THRESHOLD && previousAxis <= AXIS_THRESHOLD)
                 menuSelection = (int)Mathf.Repeat(menuSelection - 1, buttons.Length);
             previousAxis = cursorDirection;
 
@@ -39,5 +47,21 @@ public class BaseMenu : MonoBehaviour
             if (Input.GetButtonDown("Submit"))
                 buttons[menuSelection].onClick.Invoke();
         }
+    }
+
+    public void ToggleMenu()
+    {
+        menuIsShowing = !menuIsShowing;
+        menuSelection = 0;
+        Time.timeScale = menuIsShowing? 0 : 1; // Pause game updates
+        MenuPanel.SetActive(menuIsShowing);
+    }
+
+    public void ToggleMenu(bool visible)
+    {
+        menuIsShowing = visible;
+        menuSelection = 0;
+        Time.timeScale = menuIsShowing? 0 : 1; // Pause game updates
+        MenuPanel.SetActive(menuIsShowing);
     }
 }
