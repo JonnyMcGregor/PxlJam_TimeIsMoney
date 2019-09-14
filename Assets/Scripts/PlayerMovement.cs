@@ -100,5 +100,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider c){
+        if(c.gameObject.tag == "Coin"){
+            playerStats.currentMoney += c.gameObject.GetComponent<CoinController>().getValue();
+            c.gameObject.SetActive(false);
+        }
 
+    }
 }
