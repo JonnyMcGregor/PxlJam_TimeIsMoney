@@ -391,6 +391,10 @@ MonoBehaviour:
   currentTime: 0
   minimumHeight: -60
   coinBurst: {fileID: 433759958}
+  maxTransferSpeed: 8
+  minTransferSpeed: 3
+  transferRateIncreaseRate: 8
+  transferSpeed: 2
 --- !u!136 &433759951
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -573,7 +577,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -640,7 +644,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5339,6 +5343,10 @@ MonoBehaviour:
   levelPlayer: {fileID: 433759950}
   levelDoors: []
   levelCoins: []
+  oneStarScore: 10
+  twoStarScore: 20
+  threeStarScore: 30
+  moneyScoreMultiplier: 2
 --- !u!4 &922576526
 Transform:
   m_ObjectHideFlags: 0
@@ -5371,6 +5379,10 @@ MonoBehaviour:
   levelPlayer: {fileID: 433759950}
   levelDoors: []
   levelCoins: []
+  oneStarScore: 10
+  twoStarScore: 20
+  threeStarScore: 30
+  moneyScoreMultiplier: 2
 --- !u!1 &953930622
 GameObject:
   m_ObjectHideFlags: 0
