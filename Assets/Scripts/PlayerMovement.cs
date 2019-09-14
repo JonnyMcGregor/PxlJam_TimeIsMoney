@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private const float onGroundHeight = 1.5f;
     private Ray groundCheckRay;
     private RaycastHit groundCheckRayHit;
+    public bool IsOnGround { get; private set; }
 
     public PlayerStats playerStats;
 
@@ -23,6 +24,14 @@ public class PlayerMovement : MonoBehaviour
     private float disabledControlsTimer = 0;
 
     public ParticleSystem coinBurst;
+    
+    //Audio Stuff
+    public AudioSource coinDropSound;
+    public AudioSource coinPickUpSound;
+    public AudioSource footsteps;
+    private Footsteps footstepClipSelector;
+    public float timeBetweenFootsteps = 0.5f;
+    private float timeSinceLastFootstep = 0;
 
     // Use this for initialization
     void Start()
@@ -32,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         groundCheckRay = new Ray(transform.position, Vector3.down);
 
         playerStats = gameObject.GetComponent<PlayerStats>();
+        footstepClipSelector = gameObject.GetComponent<Footsteps>();
     }
 
     // Update is called once per frame
@@ -61,13 +71,21 @@ public class PlayerMovement : MonoBehaviour
         rigidBody.MovePosition(rigidBody.position + force);
         //rigidBody.AddForce(force, ForceMode.Impulse);
 
+        IsOnGround = Physics.Raycast(groundCheckRay, out groundCheckRayHit) && groundCheckRayHit.distance < onGroundHeight;
 
+        if (timeSinceLastFootstep >= timeBetweenFootsteps && (xSpeed != 0 || zSpeed != 0) && IsOnGround)
+        {
+            footstepClipSelector.setFootstepClip();
+            footsteps.Play();
+            timeSinceLastFootstep = 0;  
+        }
+        timeSinceLastFootstep += Time.deltaTime;
 
         // Apply Jump
         if (Input.GetButtonDown("Jump"))
         {
             groundCheckRay.origin = transform.position;
-            if (Physics.Raycast(groundCheckRay, out groundCheckRayHit) && groundCheckRayHit.distance < onGroundHeight)
+            if (IsOnGround)
                 jumpNumber = 0;
 
             if (jumpNumber < MaxJumpCount)
@@ -93,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Collided with Enemy");
             Vector3 forceDirection = transform.position - c.gameObject.transform.position;
             coinBurst.Play();
+            coinDropSound.Play();
             rigidBody.AddForce(forceDirection.normalized * enemyCollisionForce, ForceMode.Impulse);
             disabledControlsTimer = controlsDisableTimeOnEnemyCollision;
             
@@ -104,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
     void OnTriggerEnter(Collider c){
         if(c.gameObject.tag == "Coin"){
             playerStats.currentMoney += c.gameObject.GetComponent<CoinController>().getValue();
+            coinPickUpSound.Play();
             c.gameObject.SetActive(false);
         }
 

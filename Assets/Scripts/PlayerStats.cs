@@ -8,17 +8,12 @@ public class PlayerStats : MonoBehaviour
     public int startingMoney = 522;
     public int currentMoney;
     public float currentTime;
-
     public int minimumHeight = -10;
     private Rigidbody rigidBody;
 
     public ParticleSystem coinBurst;
 
-    public float maxTransferSpeed = 5;
-    public float minTransferSpeed = 3;
-    public float transferRateIncreaseRate = 1f;
-    public float transferSpeed = 2f;
-    private float coinBeingTransfered = 0f;
+    public AudioSource coinSpendSound;
 
     // Use this for initialization
     void Start()
@@ -31,26 +26,10 @@ public class PlayerStats : MonoBehaviour
     {
         currentTime -= Time.deltaTime;
 
-        if(Input.GetButtonDown("UseTime")){
-            currentTime -= 1;
-            currentMoney += 1;
-        }
-
-        if (Input.GetButton("UseTime"))
+        if (Input.GetButtonDown("UseTime"))
         {
-            coinBeingTransfered += transferSpeed*Time.deltaTime;
-            if(coinBeingTransfered >= 1){
-                coinBeingTransfered = 0;
-                currentTime -= 5;
-                currentMoney += 5;
-
-                if(transferSpeed <= maxTransferSpeed) transferSpeed += transferRateIncreaseRate*Time.deltaTime; //Speed up the rate of time to coin transfer the longer they hold the button
-            }
-        }
-
-        if(Input.GetButtonUp("UseTime")){
-            coinBeingTransfered = 0;
-            transferSpeed = minTransferSpeed;
+            currentTime -= 10;
+            currentMoney += 10;
         }
 
         if (Input.GetButtonDown("UseMoney"))
@@ -74,6 +53,7 @@ public class PlayerStats : MonoBehaviour
                     coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
+                    coinSpendSound.Play();
                 }
             }
         }
@@ -83,7 +63,6 @@ public class PlayerStats : MonoBehaviour
     //Initialise the players stats
     public void Initialise(Vector3 initPosition)
     {
-
         currentMoney = startingMoney;
         currentTime = startingTime;
 
@@ -91,9 +70,6 @@ public class PlayerStats : MonoBehaviour
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
         transform.position = initPosition;
-
-        coinBeingTransfered = 0;
-        transferSpeed = minTransferSpeed;
     }
 
     public bool isDead()

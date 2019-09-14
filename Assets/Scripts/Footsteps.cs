@@ -5,11 +5,11 @@ using UnityEngine;
 public class Footsteps : MonoBehaviour
 {
     public AudioSource footstepSource;
-    public AudioClip footstep1, footstep2, footstep3, footstep4;
-    private int clipNumber = 0;
+    public AudioClip[] footstepClips;
 
-    void setFootstepClip()
+    public void setFootstepClip()
     {
-        clipNumber = (int)Random.Range(1, 4);
+        footstepSource.clip = footstepClips[(int)Random.Range(0, footstepClips.Length)];
+
     }
 }
