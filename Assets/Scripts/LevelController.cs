@@ -14,12 +14,19 @@ public class LevelController : MonoBehaviour
 
     public PlayerStats levelPlayer;
 
+    public List<BuyableDoorController> levelDoors = new List<BuyableDoorController>();
+
     void Start()
     {
+        foreach (BuyableDoorController b in FindObjectsOfType<BuyableDoorController>())
+        {
+            levelDoors.Add(b);
+        }
         resetLevel();
     }
 
-    void resetLevel() {
+    void resetLevel()
+    {
         inLevelUI.gameObject.SetActive(true);
         //endLevelUI.gameObject.SetActive(false);
 
@@ -27,7 +34,8 @@ public class LevelController : MonoBehaviour
         levelPlayer.transform.position = spawnPoint.position;
         levelPlayer.Initialise();
 
-        foreach(BuyableDoorController b in FindObjectsOfType<BuyableDoorController>()) {
+        foreach (BuyableDoorController b in levelDoors)
+        {
             b.reset();
         }
     }
@@ -35,7 +43,8 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (levelPlayer.isDead()) {
+        if (levelPlayer.isDead())
+        {
             resetLevel();
         }
     }
