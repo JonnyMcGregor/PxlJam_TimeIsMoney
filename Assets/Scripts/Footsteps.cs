@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Footsteps : MonoBehaviour
 {
-    public AudioSource footstepSource;
+    private AudioSource footstepSource;
     public AudioClip[] footstepClips;
+
+    private void Start()
+    {
+        footstepSource = gameObject.AddComponent<AudioSource>();
+    }
 
     public void setFootstepClip()
     {

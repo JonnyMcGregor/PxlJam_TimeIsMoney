@@ -13,12 +13,15 @@ public class PlayerStats : MonoBehaviour
 
     public ParticleSystem coinBurst;
 
-    public AudioSource coinSpendSound;
+    public AudioClip coinSpendSound;
+    private AudioSource coinSpendSoundSource;
 
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        coinSpendSoundSource = gameObject.AddComponent<AudioSource>();
+        coinSpendSoundSource.clip = coinSpendSound;
     }
 
     // Update is called once per frame
@@ -53,7 +56,7 @@ public class PlayerStats : MonoBehaviour
                     coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
-                    coinSpendSound.Play();
+                    coinSpendSoundSource.Play();
                 }
             }
         }

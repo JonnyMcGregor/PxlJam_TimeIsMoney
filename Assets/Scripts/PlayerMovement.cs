@@ -26,10 +26,13 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem coinBurst;
     
     //Audio Stuff
-    public AudioSource coinDropSound;
-    public AudioSource coinPickUpSound;
-    public AudioSource footsteps;
-    private Footsteps footstepClipSelector;
+    [Header("Audio")]
+    public AudioClip coinDropSound;
+    public AudioClip coinPickUpSound;
+    private AudioSource footstepSource;
+    private AudioSource coinDropSource;
+    private AudioSource coinPickUpSource;
+    public AudioClip[] footstepClips;
     public float timeBetweenFootsteps = 0.5f;
     private float timeSinceLastFootstep = 0;
 
@@ -41,7 +44,12 @@ public class PlayerMovement : MonoBehaviour
         groundCheckRay = new Ray(transform.position, Vector3.down);
 
         playerStats = gameObject.GetComponent<PlayerStats>();
-        footstepClipSelector = gameObject.GetComponent<Footsteps>();
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        coinDropSource = gameObject.AddComponent<AudioSource>();
+        coinPickUpSource = gameObject.AddComponent<AudioSource>();
+
+        coinDropSource.clip = coinDropSound;
+        coinPickUpSource.clip = coinPickUpSound;
     }
 
     // Update is called once per frame
@@ -75,8 +83,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (timeSinceLastFootstep >= timeBetweenFootsteps && (xSpeed != 0 || zSpeed != 0) && IsOnGround)
         {
-            footstepClipSelector.setFootstepClip();
-            footsteps.Play();
+            setFootstepClip();
+            footstepSource.Play();
             timeSinceLastFootstep = 0;  
         }
         timeSinceLastFootstep += Time.deltaTime;
@@ -105,13 +113,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void setFootstepClip()
+    {
+        footstepSource.clip = footstepClips[(int)Random.Range(0, footstepClips.Length)];
+    }
+
     void OnCollisionEnter(Collision c){
 
         if(c.gameObject.tag == "Enemy"){
             Debug.Log("Collided with Enemy");
             Vector3 forceDirection = transform.position - c.gameObject.transform.position;
             coinBurst.Play();
-            coinDropSound.Play();
+            coinDropSource.Play();
             rigidBody.AddForce(forceDirection.normalized * enemyCollisionForce, ForceMode.Impulse);
             disabledControlsTimer = controlsDisableTimeOnEnemyCollision;
             
@@ -123,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
     void OnTriggerEnter(Collider c){
         if(c.gameObject.tag == "Coin"){
             playerStats.currentMoney += c.gameObject.GetComponent<CoinController>().getValue();
-            coinPickUpSound.Play();
+            coinPickUpSource.Play();
             c.gameObject.SetActive(false);
         }
 
