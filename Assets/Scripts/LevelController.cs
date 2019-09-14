@@ -59,7 +59,7 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (levelPlayer.isDead() && !LoseWindow.menuIsShowing)
+        if (levelPlayer.IsDead && !LoseWindow.MenuIsShowing)
         {
             LoseWindow.ToggleMenu(true);
             // resetLevel();

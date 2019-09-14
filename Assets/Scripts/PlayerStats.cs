@@ -31,18 +31,17 @@ public class PlayerStats : MonoBehaviour
     {
         currentTime -= Time.deltaTime;
 
-        if(Input.GetButtonDown("UseTime")){
-            currentTime -= 1;
-            currentMoney += 1;
+        if (Input.GetButtonDown("UseTime")){
+            currentTime -= 5;
+            currentMoney += 5;
         }
-
-        if (Input.GetButton("UseTime"))
+        else if (Input.GetButton("UseTime"))
         {
             coinBeingTransfered += transferSpeed*Time.deltaTime;
             if(coinBeingTransfered >= 1){
                 coinBeingTransfered = 0;
-                currentTime -= 5;
-                currentMoney += 5;
+                currentTime -= 1;
+                currentMoney += 1;
 
                 if(transferSpeed <= maxTransferSpeed) transferSpeed += transferRateIncreaseRate*Time.deltaTime; //Speed up the rate of time to coin transfer the longer they hold the button
             }
@@ -83,7 +82,6 @@ public class PlayerStats : MonoBehaviour
     //Initialise the players stats
     public void Initialise(Vector3 initPosition)
     {
-
         currentMoney = startingMoney;
         currentTime = startingTime;
 
@@ -96,14 +94,16 @@ public class PlayerStats : MonoBehaviour
         transferSpeed = minTransferSpeed;
     }
 
-    public bool isDead()
+    public bool IsDead
     {
-        if (transform.position.y < minimumHeight)
+        get
         {
-            return true;
+            if (transform.position.y < minimumHeight)
+            {
+                return true;
+            }
+
+            return currentTime <= 0;
         }
-
-        return currentTime <= 0;
     }
-
 }
