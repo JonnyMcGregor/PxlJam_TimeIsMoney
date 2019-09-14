@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Footsteps : MonoBehaviour
 {
-    public AudioSource footstepSource;
-    public AudioClip footstep1, footstep2, footstep3, footstep4;
-    private int clipNumber = 0;
+    private AudioSource footstepSource;
+    public AudioClip[] footstepClips;
 
-    void setFootstepClip()
+    private void Start()
     {
-        clipNumber = (int)Random.Range(1, 4);
+        footstepSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    public void setFootstepClip()
+    {
+        footstepSource.clip = footstepClips[(int)Random.Range(0, footstepClips.Length)];
+
     }
 }

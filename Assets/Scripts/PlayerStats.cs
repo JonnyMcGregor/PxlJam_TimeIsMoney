@@ -8,11 +8,8 @@ public class PlayerStats : MonoBehaviour
     public int startingMoney = 522;
     public int currentMoney;
     public float currentTime;
-
     public int minimumHeight = -10;
     private Rigidbody rigidBody;
-
-    public ParticleSystem coinBurst;
 
     public float maxTransferSpeed = 5;
     public float minTransferSpeed = 3;
@@ -20,10 +17,17 @@ public class PlayerStats : MonoBehaviour
     public float transferSpeed = 2f;
     private float coinBeingTransfered = 0f;
 
+    public ParticleSystem coinBurst;
+
+    public AudioClip coinSpendSound;
+    private AudioSource coinSpendSoundSource;
+
     // Use this for initialization
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        coinSpendSoundSource = gameObject.AddComponent<AudioSource>();
+        coinSpendSoundSource.clip = coinSpendSound;
     }
 
     // Update is called once per frame
@@ -47,10 +51,14 @@ public class PlayerStats : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonUp("UseTime")){
-            coinBeingTransfered = 0;
-            transferSpeed = minTransferSpeed;
-        }
+        // if(Input.GetButtonUp("UseTime")){
+        //     coinBeingTransfered = 0;
+        //     transferSpeed = minTransferSpeed;
+        // if (Input.GetButtonDown("UseTime"))
+        // {
+        //     currentTime -= 10;
+        //     currentMoney += 10;
+        // }
 
         if (Input.GetButtonDown("UseMoney"))
         {
@@ -73,6 +81,7 @@ public class PlayerStats : MonoBehaviour
                     coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
+                    coinSpendSoundSource.Play();
                 }
             }
         }
@@ -89,9 +98,6 @@ public class PlayerStats : MonoBehaviour
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
         transform.position = initPosition;
-
-        coinBeingTransfered = 0;
-        transferSpeed = minTransferSpeed;
     }
 
     public bool IsDead
