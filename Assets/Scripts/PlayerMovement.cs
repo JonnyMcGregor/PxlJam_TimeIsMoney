@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float controlsDisableTimeOnEnemyCollision = 1.0f;
     private float disabledControlsTimer = 0;
 
+    public ParticleSystem coinBurst;
+
     // Use this for initialization
     void Start()
     {
@@ -77,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         return;
                     }
+                    coinBurst.Play();
                     playerStats.currentMoney -= 10;
                 }
                 rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
@@ -91,10 +94,10 @@ public class PlayerMovement : MonoBehaviour
         if(c.gameObject.tag == "Enemy"){
             Debug.Log("Collided with Enemy");
             Vector3 forceDirection = transform.position - c.gameObject.transform.position;
-
+            coinBurst.Play();
             rigidBody.AddForce(forceDirection.normalized * enemyCollisionForce, ForceMode.Impulse);
             disabledControlsTimer = controlsDisableTimeOnEnemyCollision;
-
+            
             playerStats.currentMoney -= enemyCoinSteal;
             if(playerStats.currentMoney < 0) playerStats.currentMoney = 0;
         }

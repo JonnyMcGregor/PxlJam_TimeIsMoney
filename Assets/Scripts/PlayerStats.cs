@@ -11,6 +11,8 @@ public class PlayerStats : MonoBehaviour
 
     public int minimumHeight = -10;
 
+    public ParticleSystem coinBurst;
+
     // Use this for initialization
     void Start()
     {
@@ -38,7 +40,6 @@ public class PlayerStats : MonoBehaviour
     void buyNearbyItem()
     {
         Collider[] nearbyItems = Physics.OverlapSphere(transform.position, 10);
-        Debug.Log("Num colliders: " + nearbyItems.Length);
         foreach (Collider c in nearbyItems)
         {
             Debug.Log(c.gameObject.tag);
@@ -47,7 +48,7 @@ public class PlayerStats : MonoBehaviour
                 BuyableDoorController itemToBuy = c.gameObject.GetComponent<BuyableDoorController>();
                 if (itemToBuy.canBuy(currentMoney))
                 {
-                    Debug.Log("Attempting to buy");
+                    coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
                 }
