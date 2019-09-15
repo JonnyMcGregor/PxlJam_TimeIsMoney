@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Animator animator;
     private Camera camMain;
     private Rigidbody rigidBody;
     public float Speed = 1;
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         groundCheckRay = new Ray(transform.position, Vector3.down);
 
+        animator = gameObject.GetComponentInChildren<Animator>();
         playerStats = gameObject.GetComponent<PlayerStats>();
         footstepSource = gameObject.AddComponent<AudioSource>();
         coinDropSource = gameObject.AddComponent<AudioSource>();
@@ -123,7 +125,15 @@ public class PlayerMovement : MonoBehaviour
                 movementForce = Vector3.zero;
         }
         rigidBody.MovePosition(rigidBody.position + movementForce);
-       
+        
+        // Animation and rotation
+        animator.speed = Mathf.Clamp01(Mathf.Abs(xSpeed) + Mathf.Abs(zSpeed));
+        if (animator.speed > 0.5f)
+        {
+            float directionAngle = Mathf.Atan2(-moveDirection.x, -moveDirection.z) * Mathf.Rad2Deg;
+            rigidBody.rotation = Quaternion.Euler(0, directionAngle - 45, 0);
+        }
+
         // Play Footprints sounds
         if (timeSinceLastFootstep >= timeBetweenFootsteps && (xSpeed != 0 || zSpeed != 0) && IsOnGround)
         {
@@ -169,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // Apply Shadow
+        shadowQuad.SetActive(groundCheckRayHit.collider != null);
         shadowQuad.transform.position = groundCheckRayHit.point + Vector3.up * 0.1f;
     }
 

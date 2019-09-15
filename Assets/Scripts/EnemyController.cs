@@ -32,6 +32,8 @@ public class EnemyController : MonoBehaviour
 			enemy.position = Vector3.Lerp(point2, point1, t);
        }
 
+       enemy.rotation = Quaternion.Euler(0, toggle? 0 : 180, 0);
+
 		t += speed*Time.deltaTime;
 
        if(t >= 1){
