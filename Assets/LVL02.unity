@@ -725,6 +725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c0d1576b51946bc9789a30f80a5efa, type: 3}
+
 --- !u!1 &543459844
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,7 +823,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.1791916, y: 4.623862, z: 3.252472}
   m_Center: {x: 3.626524, y: -1.125756, z: 2.2962036}
---- !u!1001 &655675395
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
