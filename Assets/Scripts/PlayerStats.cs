@@ -9,7 +9,8 @@ public class PlayerStats : MonoBehaviour
     public int currentMoney;
     public float currentTime;
     public int minimumHeight = -10;
-    private Rigidbody rigidBody;
+    private Rigidbody rigidBody;    
+    private PlayerMovement playerMovement;
 
     public float maxTransferSpeed = 5;
     public float minTransferSpeed = 3;
@@ -28,6 +29,7 @@ public class PlayerStats : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         coinSpendSoundSource = gameObject.AddComponent<AudioSource>();
         coinSpendSoundSource.clip = coinSpendSound;
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -95,9 +97,8 @@ public class PlayerStats : MonoBehaviour
         currentTime = startingTime;
 
         // Reset physics
-        rigidBody.velocity = Vector3.zero;
-        rigidBody.angularVelocity = Vector3.zero;
         transform.position = initPosition;
+        playerMovement.Reset();
     }
 
     public bool IsDead
