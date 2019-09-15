@@ -41,7 +41,7 @@ public class LevelController : MonoBehaviour
     {
         Time.timeScale = 1;
         inLevelUI.gameObject.SetActive(true);
-        LoseWindow.ToggleMenu(false);
+        // LoseWindow.ToggleMenu(false);
         //endLevelUI.gameObject.SetActive(false);
 
         levelPlayer.Initialise(spawnPoint.position);
