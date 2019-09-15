@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         coinPickUpSource.clip = coinPickUpSound;
 
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
-        onGroundHeight = collider.height + 0.01f;
+        onGroundHeight = collider.height / 2 + 0.01f;
         radius = collider.radius * 2.01f;
 
         movementCheck = new float[5];
@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
             timeSinceLastFootstep = 0;  
         }
         timeSinceLastFootstep += Time.fixedDeltaTime;
-
+ 
         // Apply Jump
         if (IsOnGround)
         {
@@ -171,10 +171,8 @@ public class PlayerMovement : MonoBehaviour
                 else canJump = jumpNumber == 0;
 
                 if (canJump)
-                {
                     rigidBody.velocity = new Vector3(rigidBody.velocity.x, JumpSpeed, rigidBody.velocity.z);
-                    ++jumpNumber;
-                }
+                ++jumpNumber;
             }
         }
         
