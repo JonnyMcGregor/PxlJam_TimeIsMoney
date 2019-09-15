@@ -136,7 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0ee8222b29d3e43a65633423d381ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuIsShowing: 0
   cursor: {fileID: 3333935456814260630}
   buttons:
   - {fileID: 6344238098096433249}
@@ -607,7 +606,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1018508475934820778}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8302386456912426012}
+        m_MethodName: ReturnToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4213492467041494009
 GameObject:
   m_ObjectHideFlags: 0
