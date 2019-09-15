@@ -5677,7 +5677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e4fcaed9676cd4da50d5c8b248b03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
 --- !u!114 &6475616340273655353 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7947172808111566351, guid: ff025144d945ada4ca69a1f59cd94b70,
@@ -5690,7 +5689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c74d75fb53c7bc47a39312941ea2d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-=======
 --- !u!1001 &6957811475468981240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5787,4 +5785,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6957811475468981240}
   m_PrefabAsset: {fileID: 0}
->>>>>>> 4e3fb362abe870f159810092d7ae8416867c9535
