@@ -8,6 +8,8 @@ public class MovingPlatform : MonoBehaviour
     public Vector3 EndPosition;
     public float Speed;
 
+    public bool toggleScaledSpeed = true;
+
     private float time;
     private float timeFraction;
     private float distance;
@@ -21,8 +23,14 @@ public class MovingPlatform : MonoBehaviour
     void Start()
     {
         transform.position = StartPosition;
-        distance = (StartPosition - EndPosition).magnitude;
-        timeFraction = 1 / distance;
+
+        if(toggleScaledSpeed){
+            distance = (StartPosition - EndPosition).magnitude;
+            timeFraction = 1 / distance;
+        }
+        else{
+            timeFraction = 1;
+        }
         objectsOnPlatform = new List<Rigidbody>();
     }
 
