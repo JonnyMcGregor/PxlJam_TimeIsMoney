@@ -84,8 +84,8 @@ public class LevelController : MonoBehaviour
 
     int CalculateScore(float time, int money){
         float score = money*moneyScoreMultiplier + time;
-        Debug.Log("Score: "+ score);
-        if(score >= oneStarScore){
+        Debug.Log("Score: " + score);
+        if (score >= oneStarScore){
             if(score >= twoStarScore){
                 if(score >= threeStarScore){
                     return 3;

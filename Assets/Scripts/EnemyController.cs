@@ -7,8 +7,8 @@ public class EnemyController : MonoBehaviour
 
 	public Transform enemy;
 
-	public Transform point1;
-	public Transform point2;
+	public Vector3 point1;
+	public Vector3 point2;
 
 	public float speed = 1;
 
@@ -19,17 +19,17 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy.position = point1.position;
+        enemy.position = point1;
     }
 
     // Update is called once per frame
     void Update()
     {
        if(toggle){
-       		enemy.position = Vector3.Lerp(point1.position, point2.position, t);
+       		enemy.position = Vector3.Lerp(point1, point2, t);
        }
        else{
-			enemy.position = Vector3.Lerp(point2.position, point1.position, t);
+			enemy.position = Vector3.Lerp(point2, point1, t);
        }
 
 		t += speed*Time.deltaTime;
