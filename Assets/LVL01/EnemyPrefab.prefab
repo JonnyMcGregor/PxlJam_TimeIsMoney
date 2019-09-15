@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 3922318343347344409}
-  point1: {fileID: 3922318341845171280}
-  point2: {fileID: 3922318341588858621}
+  point1: {x: 0, y: 0, z: 0}
+  point2: {x: 0, y: 0, z: 0}
   speed: 1
 --- !u!1 &3922318343347344410
 GameObject:
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 3922318343347344408}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

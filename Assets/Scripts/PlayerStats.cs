@@ -38,8 +38,8 @@ public class PlayerStats : MonoBehaviour
         currentTime -= Time.deltaTime;
 
         if (Input.GetButtonDown("UseTime")){
-            currentTime -= 5;
-            currentMoney += 5;
+            currentTime -=  1;
+            currentMoney += 1;
         }
         else if (Input.GetButton("UseTime"))
         {
@@ -72,7 +72,6 @@ public class PlayerStats : MonoBehaviour
         Collider[] nearbyItems = Physics.OverlapSphere(transform.position, 10);
         foreach (Collider c in nearbyItems)
         {
-            Debug.Log(c.gameObject.tag);
             if (c.gameObject.tag == "Buyable")
             {
                 BuyableDoorController itemToBuy = c.gameObject.GetComponent<BuyableDoorController>();

@@ -11,13 +11,13 @@ public class EnemyGizmoEditor : Editor
         EnemyController example = (EnemyController)target;
 
         EditorGUI.BeginChangeCheck();
-        Vector3 newStartPosition = Handles.PositionHandle(example.point1.position, Quaternion.identity);
-        Vector3 newEndPosition = Handles.PositionHandle(example.point2.position, Quaternion.identity);
+        Vector3 newStartPosition = Handles.PositionHandle(example.point1, Quaternion.identity);
+        Vector3 newEndPosition = Handles.PositionHandle(example.point2, Quaternion.identity);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(example, "Change Enemy Path");
-            example.point1.position = newStartPosition;
-            example.point2.position = newEndPosition;
+            example.point1 = newStartPosition;
+            example.point2 = newEndPosition;
         }
     }
 }
