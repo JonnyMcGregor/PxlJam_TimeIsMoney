@@ -48,7 +48,7 @@ public class MovingPlatform : MonoBehaviour
 
         // Move objects on platform
         foreach (Rigidbody rb in objectsOnPlatform)
-            rb.MovePosition(rb.position + movementForce);
+            rb.MovePosition(rb.position + movementForce / 2);
     }
 
     // Draw the path in the editor
