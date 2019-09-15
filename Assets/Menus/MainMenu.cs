@@ -28,7 +28,6 @@ public class MainMenu : BaseMenu
 
     public void LoadLevel(int levelID)
     {
-        print(scenes.Length + " : " + levelID);
         SceneManager.LoadScene(scenes[levelID], LoadSceneMode.Single);
     }
 }

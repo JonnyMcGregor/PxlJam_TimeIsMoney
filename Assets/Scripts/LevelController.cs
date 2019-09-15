@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ using UnityEngine;
 public class LevelController : MonoBehaviour
 {
     public BaseMenu LoseWindow;
+    public WinMenu WinWindow;
 
     public Transform spawnPoint;
     public Transform goalPoint;
@@ -68,8 +70,8 @@ public class LevelController : MonoBehaviour
 
         //get player distance to end to see if they have won
         if(Vector3.Distance(levelPlayer.transform.position, goalPoint.position) <= 5){
-            Debug.Log("Star: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
-
+            WonLevel();
+            // Debug.Log("Star: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
         }
 
         foreach (BuyableDoorController b in levelDoors)
@@ -80,6 +82,13 @@ public class LevelController : MonoBehaviour
             }
         }
         inLevelUI.GetComponent<HUD_Controller>().DoorText = "";
+    }
+
+    private void WonLevel()
+    {
+        if (WinWindow.MenuIsShowing) return;
+        WinWindow.SetStarRating(CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
+        WinWindow.ToggleMenu(true);
     }
 
     int CalculateScore(float time, int money){
