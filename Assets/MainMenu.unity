@@ -2219,7 +2219,7 @@ MonoBehaviour:
   menuSelection: 0
   MenuPanel: {fileID: 2022156197}
   scenes:
-  - Level
+  - LVL01
   - LVL02
   - LVL03
   - LVL04
