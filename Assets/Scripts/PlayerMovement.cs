@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float JumpSpeed = 1;
     private int jumpNumber = 0;
     public int MaxJumpCount = 2;
-    private const float onGroundHeight = 1.5f;
+    private const float onGroundHeight = 4f;
     private Ray groundCheckRay;
     private RaycastHit groundCheckRayHit;
     public bool IsOnGround { get; private set; }
