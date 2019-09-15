@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   JumpSpeed: 10
-  MaxJumpCount: 2
+  MaxJumpCount: 3
   shadowQuad: {fileID: 4002712366218728000}
   playerStats: {fileID: 8078767722135208148}
   enemyCollisionForce: 80

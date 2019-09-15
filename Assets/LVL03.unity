@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 834207959}
-  m_IndirectSpecularColor: {r: 0.106872655, g: 0.20007315, b: 0.27880913, a: 1}
+  m_IndirectSpecularColor: {r: 0.1669017, g: 0.20944624, b: 0.2890179, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3977,11 +3977,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8078767722135208151, guid: 3bd92c31cf294c34789d127414bad538,
         type: 3}
-      propertyPath: MaxJumpCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8078767722135208151, guid: 3bd92c31cf294c34789d127414bad538,
-        type: 3}
       propertyPath: Speed
       value: 10
       objectReference: {fileID: 0}
@@ -3989,11 +3984,6 @@ PrefabInstance:
         type: 3}
       propertyPath: JumpSpeed
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8078767722135208151, guid: 3bd92c31cf294c34789d127414bad538,
-        type: 3}
-      propertyPath: MaxJumpCount
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5722337567483007668, guid: 3bd92c31cf294c34789d127414bad538,
         type: 3}
