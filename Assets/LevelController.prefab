@@ -299,10 +299,10 @@ MonoBehaviour:
   currentMoney: 0
   currentTime: 0
   minimumHeight: -60
-  maxTransferSpeed: 5
-  minTransferSpeed: 3
+  maxTransferSpeed: 10
+  minTransferSpeed: 5
   transferRateIncreaseRate: 1
-  transferSpeed: 2
+  transferSpeed: 5
   coinBurst: {fileID: 8078767722135208140}
   coinSpendSound: {fileID: 8300000, guid: 593f527a7f5cc3a49a9dc52ace695c28, type: 3}
 --- !u!114 &8078767722135208151
