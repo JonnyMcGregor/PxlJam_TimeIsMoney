@@ -11,9 +11,12 @@ public class PlayerMovement : MonoBehaviour
     private int jumpNumber = 0;
     private bool jumpKeyDown = false;
     public int MaxJumpCount = 2;
+    public GameObject shadowQuad;
 
     private Vector3 movementForce;
     private float onGroundHeight = 4f;
+    private float radius = 4f;
+    private float[] movementCheck;
     private Ray groundCheckRay;
     private RaycastHit groundCheckRayHit;
     public bool IsOnGround { get; private set; }
@@ -59,7 +62,13 @@ public class PlayerMovement : MonoBehaviour
         coinDropSource.clip = coinDropSound;
         coinPickUpSource.clip = coinPickUpSound;
 
-        onGroundHeight = GetComponent<CapsuleCollider>().height + 0.01f;
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        onGroundHeight = collider.height + 0.01f;
+        radius = collider.radius * 2.01f;
+
+        movementCheck = new float[5];
+        for (int i = 0; i < movementCheck.Length; ++i)
+            movementCheck[i] = (2f * i / movementCheck.Length - 1) * 0.8f;
     }
 
     public void Reset()
@@ -98,11 +107,21 @@ public class PlayerMovement : MonoBehaviour
 
         // Check is on ground
         groundCheckRay.origin = transform.position;
-        IsOnGround = Physics.Raycast(groundCheckRay, out groundCheckRayHit) && groundCheckRayHit.distance < onGroundHeight;
+        IsOnGround = Physics.Raycast(groundCheckRay, out groundCheckRayHit, 100) && 
+                                    groundCheckRayHit.distance < onGroundHeight;
 
         // Apply Movement 
-        movementForce = (horizontalAxis * xSpeed + verticalAxis * zSpeed).normalized * Speed * Time.fixedDeltaTime;
-        // if (IsOnGround || force.sqrMagnitude > float.Epsilon) movementForce = force;
+        Vector3 moveDirection = (horizontalAxis * xSpeed + verticalAxis * zSpeed).normalized;
+        movementForce = moveDirection * Speed * Time.fixedDeltaTime;
+
+        // Check path is blocked
+        for (int i = 0; i < movementCheck.Length; ++i)
+        {
+            Ray blockRay = new Ray(rigidBody.position + Vector3.down * onGroundHeight * movementCheck[i], moveDirection);
+            RaycastHit result;
+            if (Physics.Raycast(blockRay, out result, radius) && Vector3.Dot(result.normal, moveDirection) < -0.9f)
+                movementForce = Vector3.zero;
+        }
         rigidBody.MovePosition(rigidBody.position + movementForce);
        
         // Play Footprints sounds
@@ -130,22 +149,27 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpKeyDown)
         {
+            bool canJump = true;
             jumpKeyDown = false;
             if (jumpNumber < MaxJumpCount)
             {
-                if (jumpNumber > 0)
+                if (jumpNumber > 0 && playerStats.currentMoney >= 10)
                 {
-                    if (playerStats.currentMoney < 10)
-                    {
-                        return;
-                    }
                     coinBurst.Play();
                     playerStats.currentMoney -= 10;
                 }
-                rigidBody.velocity = new Vector3(rigidBody.velocity.x, JumpSpeed, rigidBody.velocity.z);
-                ++jumpNumber;
+                else canJump = jumpNumber == 0;
+
+                if (canJump)
+                {
+                    rigidBody.velocity = new Vector3(rigidBody.velocity.x, JumpSpeed, rigidBody.velocity.z);
+                    ++jumpNumber;
+                }
             }
         }
+        
+        // Apply Shadow
+        shadowQuad.transform.position = groundCheckRayHit.point + Vector3.up * 0.1f;
     }
 
     public void setFootstepClip()
