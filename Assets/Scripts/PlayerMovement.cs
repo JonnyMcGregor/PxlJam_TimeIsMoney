@@ -9,11 +9,16 @@ public class PlayerMovement : MonoBehaviour
     public float Speed = 1;
     public float JumpSpeed = 1;
     private int jumpNumber = 0;
+    private bool jumpKeyDown = false;
     public int MaxJumpCount = 2;
-    private const float onGroundHeight = 1.5f;
+
+    private Vector3 movementForce;
+    private float onGroundHeight = 4f;
     private Ray groundCheckRay;
     private RaycastHit groundCheckRayHit;
     public bool IsOnGround { get; private set; }
+    private float timeInAir = 0;
+    private const float timeInAirBeforeJump = 0.25f;
 
     public PlayerStats playerStats;
 
@@ -33,12 +38,15 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource coinDropSource;
     private AudioSource coinPickUpSource;
     public AudioClip[] footstepClips;
-    public float timeBetweenFootsteps = 0.5f;
+    public float timeBetweenFootsteps = 0.1f;
     private float timeSinceLastFootstep = 0;
 
     // Use this for initialization
     void Start()
     {
+        timeInAir = 0;
+        jumpNumber = 0;
+
         camMain = Camera.main;
         rigidBody = GetComponent<Rigidbody>();
         groundCheckRay = new Ray(transform.position, Vector3.down);
@@ -50,21 +58,35 @@ public class PlayerMovement : MonoBehaviour
 
         coinDropSource.clip = coinDropSound;
         coinPickUpSource.clip = coinPickUpSound;
+
+        onGroundHeight = GetComponent<CapsuleCollider>().height + 0.01f;
+    }
+
+    public void Reset()
+    {
+        jumpKeyDown = false;
+        movementForce = Vector3.zero;
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+    }
+
+    void Update()
+    {
+        jumpKeyDown |= Input.GetButtonDown("Jump");
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
         if(disabledControlsTimer > 0){
-            disabledControlsTimer -= 1*Time.deltaTime;
+            disabledControlsTimer -= Time.deltaTime;
             if(disabledControlsTimer <= 0) disabledControlsTimer = 0;
             return;
         }
 
         // Get Movement Input
-        float xSpeed = Input.GetAxis("Horizontal");
-        float zSpeed = Input.GetAxis("Vertical");
+        float xSpeed = Mathf.Round(Input.GetAxisRaw("Horizontal"));
+        float zSpeed = Mathf.Round(Input.GetAxisRaw("Vertical"));
 
         // Calculate Left/Right Direction
         Vector3 horizontalAxis = camMain.transform.right;
@@ -74,28 +96,41 @@ public class PlayerMovement : MonoBehaviour
         // Calculate Up/Down Direction
         Vector3 verticalAxis = Vector3.Cross(horizontalAxis, Vector3.up).normalized;
 
-        // Apply Movement
-        Vector3 force = (horizontalAxis * xSpeed + verticalAxis * zSpeed).normalized * Speed;
-        rigidBody.MovePosition(rigidBody.position + force);
-        //rigidBody.AddForce(force, ForceMode.Impulse);
-
+        // Check is on ground
+        groundCheckRay.origin = transform.position;
         IsOnGround = Physics.Raycast(groundCheckRay, out groundCheckRayHit) && groundCheckRayHit.distance < onGroundHeight;
 
+        // Apply Movement 
+        movementForce = (horizontalAxis * xSpeed + verticalAxis * zSpeed).normalized * Speed * Time.fixedDeltaTime;
+        // if (IsOnGround || force.sqrMagnitude > float.Epsilon) movementForce = force;
+        rigidBody.MovePosition(rigidBody.position + movementForce);
+       
+        // Play Footprints sounds
         if (timeSinceLastFootstep >= timeBetweenFootsteps && (xSpeed != 0 || zSpeed != 0) && IsOnGround)
         {
             setFootstepClip();
             footstepSource.Play();
             timeSinceLastFootstep = 0;  
         }
-        timeSinceLastFootstep += Time.deltaTime;
+        timeSinceLastFootstep += Time.fixedDeltaTime;
 
         // Apply Jump
-        if (Input.GetButtonDown("Jump"))
+        if (IsOnGround)
         {
-            groundCheckRay.origin = transform.position;
-            if (IsOnGround)
-                jumpNumber = 0;
+            timeInAir = 0;
+            jumpNumber = 0;
+        }
+        else
+        {
+            timeInAir += Time.fixedDeltaTime;
+            // Record first jump if falling
+            if (timeInAir > timeInAirBeforeJump && jumpNumber < 1)
+                jumpNumber = 1;
+        }
 
+        if (jumpKeyDown)
+        {
+            jumpKeyDown = false;
             if (jumpNumber < MaxJumpCount)
             {
                 if (jumpNumber > 0)
@@ -107,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
                     coinBurst.Play();
                     playerStats.currentMoney -= 10;
                 }
-                rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                rigidBody.velocity = new Vector3(rigidBody.velocity.x, JumpSpeed, rigidBody.velocity.z);
                 ++jumpNumber;
             }
         }
@@ -119,7 +154,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision c){
-
         if(c.gameObject.tag == "Enemy"){
             Debug.Log("Collided with Enemy");
             Vector3 forceDirection = transform.position - c.gameObject.transform.position;

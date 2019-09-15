@@ -7,12 +7,6 @@ public class BuyableDoorController : MonoBehaviour
 
     public int price = 20;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public bool canBuy(int playerMoney) {
         return playerMoney >= price;
     }
