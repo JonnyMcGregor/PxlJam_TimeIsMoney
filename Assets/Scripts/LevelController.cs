@@ -16,6 +16,7 @@ public class LevelController : MonoBehaviour
     public PlayerStats levelPlayer;
 
     public List<BuyableDoorController> levelDoors = new List<BuyableDoorController>();
+    public float distanceToDoorsToSeePrice = 10;
     public List<CoinController> levelCoins = new List<CoinController>();
 
     public int oneStarScore = 10;
@@ -70,6 +71,15 @@ public class LevelController : MonoBehaviour
             Debug.Log("Score: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
 
         }
+
+        foreach (BuyableDoorController b in levelDoors)
+        {
+            if(b.gameObject.activeSelf && Vector3.Distance(levelPlayer.transform.position, b.transform.position) <= distanceToDoorsToSeePrice){
+                inLevelUI.GetComponent<HUD_Controller>().updateClosestDoorCost(b.transform.position, b.price);
+                return;
+            }
+        }
+        inLevelUI.GetComponent<HUD_Controller>().DoorText = "";
     }
 
     int CalculateScore(float time, int money){

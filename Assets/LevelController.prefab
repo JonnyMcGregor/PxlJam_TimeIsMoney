@@ -55,6 +55,7 @@ MonoBehaviour:
   inLevelUI: {fileID: 5595691422246654049}
   levelPlayer: {fileID: 8078767722135208148}
   levelDoors: []
+  distanceToDoorsToSeePrice: 10
   levelCoins: []
   oneStarScore: 10
   twoStarScore: 20
@@ -206,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daea248997367d4485fd871fb788cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingTime: 50
+  startingTime: 120
   startingMoney: 0
   currentMoney: 0
   currentTime: 0
@@ -5137,7 +5138,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 0.00001
+  field of view: 8
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5499,6 +5500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2723419100907800338, guid: ff025144d945ada4ca69a1f59cd94b70,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff025144d945ada4ca69a1f59cd94b70, type: 3}

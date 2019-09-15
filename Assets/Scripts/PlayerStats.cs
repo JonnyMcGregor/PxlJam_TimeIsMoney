@@ -62,9 +62,7 @@ public class PlayerStats : MonoBehaviour
         //     currentMoney += 10;
         // }
 
-        if (Input.GetButtonDown("UseMoney"))
-        {
-            Debug.Log("Input pressed");
+        if(Input.GetButtonDown("UseMoney")){
             buyNearbyItem();
         }
     }
@@ -80,6 +78,7 @@ public class PlayerStats : MonoBehaviour
                 BuyableDoorController itemToBuy = c.gameObject.GetComponent<BuyableDoorController>();
                 if (itemToBuy.canBuy(currentMoney))
                 {
+
                     coinBurst.Play();
                     currentMoney -= itemToBuy.getCost();
                     itemToBuy.buyDoor();
