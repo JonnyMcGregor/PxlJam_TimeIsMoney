@@ -68,7 +68,7 @@ public class LevelController : MonoBehaviour
 
         //get player distance to end to see if they have won
         if(Vector3.Distance(levelPlayer.transform.position, goalPoint.position) <= 5){
-            Debug.Log("Score: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
+            Debug.Log("Star: "+CalculateScore(levelPlayer.currentTime, levelPlayer.currentMoney));
 
         }
 
@@ -84,8 +84,8 @@ public class LevelController : MonoBehaviour
 
     int CalculateScore(float time, int money){
         float score = money*moneyScoreMultiplier + time;
-        
-        if(score >= oneStarScore){
+        Debug.Log("Score: " + score);
+        if (score >= oneStarScore){
             if(score >= twoStarScore){
                 if(score >= threeStarScore){
                     return 3;
