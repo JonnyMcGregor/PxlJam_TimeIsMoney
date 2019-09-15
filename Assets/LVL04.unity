@@ -523,11 +523,6 @@ PrefabInstance:
       propertyPath: threeStarScore
       value: 100
       objectReference: {fileID: 0}
-    - target: {fileID: 8078767722597393657, guid: 3bd92c31cf294c34789d127414bad538,
-        type: 3}
-      propertyPath: field of view
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 8078767722135208142, guid: 3bd92c31cf294c34789d127414bad538,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -542,11 +537,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -6.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8078767722135208148, guid: 3bd92c31cf294c34789d127414bad538,
-        type: 3}
-      propertyPath: startingTime
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8078767722552078633, guid: 3bd92c31cf294c34789d127414bad538,
         type: 3}
@@ -582,6 +572,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8078767722135208148, guid: 3bd92c31cf294c34789d127414bad538,
+        type: 3}
+      propertyPath: startingTime
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8078767722597393657, guid: 3bd92c31cf294c34789d127414bad538,
+        type: 3}
+      propertyPath: field of view
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5595691422246654049, guid: 3bd92c31cf294c34789d127414bad538,
         type: 3}

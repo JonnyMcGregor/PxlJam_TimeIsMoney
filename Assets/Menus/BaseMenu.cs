@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BaseMenu : MonoBehaviour
@@ -61,5 +62,10 @@ public class BaseMenu : MonoBehaviour
         MenuIsShowing = visible;
         menuSelection = 0;
         Time.timeScale = MenuIsShowing? 0 : 1; // Pause game updates
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }
