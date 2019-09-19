@@ -42,6 +42,7 @@ public class BaseMenu : MonoBehaviour
 
             // Update Cursor position
             Transform selection = buttons[menuSelection].transform;
+            cursor.transform.SetParent(selection);
             cursor.SetPositionAndRotation(selection.position, selection.rotation);
 
             // Click Button
